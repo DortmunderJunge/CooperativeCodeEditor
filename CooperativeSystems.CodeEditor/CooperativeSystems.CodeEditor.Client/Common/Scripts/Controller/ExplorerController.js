@@ -44,7 +44,7 @@
                     });
             }
             /* End Side-Nav-Control */
-            
+
             this.repositories = function () {
                 return Configuration.getRepositories();
             }
@@ -57,13 +57,13 @@
                 }
             }
 
-             this.getGitHubRepos = function () {
-                 GitHubService.getRepositories(Configuration.getGitHubUser().UserName).then(
-                     function success(repositories) {
-                         $scope.gitHubRepos = repositories;
-                         Configuration.setRepositories(repositories);
-                     });
-             },
+            this.getGitHubRepos = function () {
+                GitHubService.getRepositories(Configuration.getGitHubUser().UserName).then(
+                    function success(repositories) {
+                        $scope.gitHubRepos = repositories;
+                        Configuration.setRepositories(repositories);
+                    });
+            },
 
                 this.open = function (name) {
                     var repository = this.currentContent;
@@ -83,9 +83,10 @@
                 },
 
                 this.openFile = function (gitHubFile) {
-                    var fileContent = gitHubFile.getFileContent().then(
+                    gitHubFile.getFileContent().then(
                         function success(file) {
-                            window.editor.setValue(file);
+                            gitHubFile.content = file;
+                            window.editor.setValue(gitHubFile.content);
                             $rootScope.activeDocument = gitHubFile;
                         }
                     );
