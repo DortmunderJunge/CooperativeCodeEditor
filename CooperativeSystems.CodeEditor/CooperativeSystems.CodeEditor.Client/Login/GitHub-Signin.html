@@ -35,8 +35,12 @@
         var code = QueryString.code;
 
         if (code) {
+
+            var debugUrl = 'http://localhost/CooperativeCodeEditor/api/Authentication/GitHubToken?GitHubCode=';
+            var url = 'http://cooperativecodeeditorapi.azurewebsites.net/api/Authentication/GitHubToken?GitHubCode=';
+
             var request = new XMLHttpRequest();
-            request.open("GET", "http://localhost/CooperativeCodeEditor/api/Authentication/GitHubToken?GitHubCode=" + code);
+            request.open("GET", url + code);
             
             request.addEventListener('load', function(e) {
                 if (request.status >= 200 && request.status < 300) {
