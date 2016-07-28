@@ -1,7 +1,7 @@
 (function () {
     app.factory('AccountService', ['$http', function ($http) {
 
-        var apiServer = 'http://http://cooperativecodeeditorapi.azurewebsites.net/';
+        var apiServer = 'http://cooperativecodeeditorapi.azurewebsites.net/'; // 'http://localhost/CooperativeCodeEditor/
         var baseUrl = apiServer + 'api/';
         var provider = 'GitHub'
 
