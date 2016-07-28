@@ -13,7 +13,7 @@ import (
 
 func main() {
 
-	http.Handle("/", http.FileServer(rice.MustFindBox("CooperativeSystems.CodeEditor\\CooperativeSystems.CodeEditor.Client").HTTPBox()))
+	http.Handle("/", http.FileServer(rice.MustFindBox("CooperativeSystems.CodeEditor.Client").HTTPBox()))
 	go http.ListenAndServe(":8080", nil)
 
 	var err error

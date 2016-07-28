@@ -137,12 +137,12 @@ func init() {
 	// define dirs
 	dir1 := &embedded.EmbeddedDir{
 		Filename:   ``,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{},
 	}
 	dir2 := &embedded.EmbeddedDir{
 		Filename:   `Code`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			file3, // Code/Content.html
 			file4, // Code/Editor.html
@@ -152,12 +152,12 @@ func init() {
 	}
 	dir6 := &embedded.EmbeddedDir{
 		Filename:   `Common`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{},
 	}
 	dir7 := &embedded.EmbeddedDir{
 		Filename:   `Common/Scripts`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			file8, // Common/Scripts/CodeEditor.js
 			fileh, // Common/Scripts/GitHubContent.js
@@ -167,7 +167,7 @@ func init() {
 	}
 	dir9 := &embedded.EmbeddedDir{
 		Filename:   `Common/Scripts/Controller`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			filea, // Common/Scripts/Controller/EditorController.js
 			fileb, // Common/Scripts/Controller/ExplorerController.js
@@ -179,7 +179,7 @@ func init() {
 	}
 	dirf := &embedded.EmbeddedDir{
 		Filename:   `Common/Scripts/Directives`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			fileg, // Common/Scripts/Directives/LazyJS.js
 
@@ -187,7 +187,7 @@ func init() {
 	}
 	diri := &embedded.EmbeddedDir{
 		Filename:   `Common/Scripts/Interceptors`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			filej, // Common/Scripts/Interceptors/AuthenticationInterceptor.js
 
@@ -195,7 +195,7 @@ func init() {
 	}
 	dirk := &embedded.EmbeddedDir{
 		Filename:   `Common/Scripts/Services`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			filel, // Common/Scripts/Services/AccountService.js
 			filem, // Common/Scripts/Services/GitHubService.js
@@ -205,7 +205,7 @@ func init() {
 	}
 	dirp := &embedded.EmbeddedDir{
 		Filename:   `Common/Styles`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			fileq, // Common/Styles/Content.css
 			filer, // Common/Styles/Sidebar.css
@@ -215,7 +215,7 @@ func init() {
 	}
 	dirt := &embedded.EmbeddedDir{
 		Filename:   `Common/Templates`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			fileu, // Common/Templates/Sidebar.html
 			filev, // Common/Templates/Toolbar.html
@@ -224,7 +224,7 @@ func init() {
 	}
 	dirw := &embedded.EmbeddedDir{
 		Filename:   `Home`,
-		DirModTime: time.Unix(1469726901, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			filex, // Home/Index.html
 
@@ -232,7 +232,7 @@ func init() {
 	}
 	diry := &embedded.EmbeddedDir{
 		Filename:   `Login`,
-		DirModTime: time.Unix(1469728039, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			file11, // Login/Login.html
 			file12, // Login/UserInfo.html
@@ -241,7 +241,7 @@ func init() {
 	}
 	dirz := &embedded.EmbeddedDir{
 		Filename:   `Login/GitHub-Signin`,
-		DirModTime: time.Unix(1469728035, 0),
+		DirModTime: time.Unix(1469732625, 0),
 		ChildFiles: []*embedded.EmbeddedFile{
 			file10, // Login/GitHub-Signin/index.html
 
@@ -284,9 +284,9 @@ func init() {
 	dirz.ChildDirs = []*embedded.EmbeddedDir{}
 
 	// register embeddedBox
-	embedded.RegisterEmbeddedBox(`CooperativeSystems.CodeEditor\\CooperativeSystems.CodeEditor.Client`, &embedded.EmbeddedBox{
-		Name: `CooperativeSystems.CodeEditor\\CooperativeSystems.CodeEditor.Client`,
-		Time: time.Unix(1469731728, 0),
+	embedded.RegisterEmbeddedBox(`CooperativeSystems.CodeEditor.Client`, &embedded.EmbeddedBox{
+		Name: `CooperativeSystems.CodeEditor.Client`,
+		Time: time.Unix(1469732633, 0),
 		Dirs: map[string]*embedded.EmbeddedDir{
 			"":                            dir1,
 			"Code":                        dir2,
