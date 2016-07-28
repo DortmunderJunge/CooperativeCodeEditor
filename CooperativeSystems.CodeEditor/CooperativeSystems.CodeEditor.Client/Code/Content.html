@@ -1,0 +1,21 @@
+<div class="explorer-content-row" ng-click="explorer.open()">
+    <div ng-hide="explorer.currentContent.isLoading">
+        <div ng-show="explorer.currentContent.type === 'dir'">
+            <i class="material-icons" ng-hide="explorer.currentContent.isExpanded">keyboard_arrow_right</i>
+            <i class="material-icons" ng-show="explorer.currentContent.isExpanded">keyboard_arrow_up</i>
+        </div>
+        <div ng-show="explorer.currentContent.type === 'file'">
+            <i class="material-icons">insert_drive_file</i>
+        </div>
+    </div>
+    <div ng-show="explorer.currentContent.isLoading">
+        <i class="material-icons">refresh</i>
+    </div>
+
+    <span class="explorer-content-label">{{ explorer.currentContent.name }}</span>
+</div>
+<div>
+    <div class="content" ng-show="explorer.currentContent.isExpanded" ng-repeat="child in explorer.currentContent.children">
+        <ng-include src="'../Code/Content.html'" ng-controller="ExplorerController as explorer" onload="explorer.setCurrentContent(child)"></ng-include>
+    </div>
+</div>

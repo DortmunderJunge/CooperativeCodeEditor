@@ -1,0 +1,16 @@
+<md-card id="login-card">
+    <div class="md-card-image"></div>
+    <md-card-title>
+        <md-card-title-text>
+            <span class="md-headline">Mit GitHub einloggen</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-actions ng-controller="LoginController as login" layout="row" layout-align="end center">
+        <md-button ng-click="login.login()" class="md-raised md-primary">Los geht's!</md-button>
+    </md-card-actions>
+    <md-card-content>
+        <p>
+            Logge dich mit deinem GitHub-Account ein, um auf deinen Code zuzugreifen und mit deinen Kollegen zu interagieren!
+        </p>
+    </md-card-content>
+</md-card>
