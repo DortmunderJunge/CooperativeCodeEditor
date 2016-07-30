@@ -1,0 +1,46 @@
+<html>
+	<head>
+		<style>
+			#editor {
+				position: absolute;
+				width: 500px;
+				height: 400px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="editor">some text</div>
+		<script src="ace.js" type="text/javascript" charset="utf-8"></script>
+		<script>
+			var ws = new WebSocket("ws://localhost:8080/ws");
+			var editor = ace.edit("editor");
+			var ownChange = false;
+
+			function onChange(event) {
+				if (ownChange == false) {
+					console.log(event)
+					var msg = new Object();
+					msg.data = editor.getValue();
+					msg.curPos = editor.getCursorPosition();
+					var jon = JSON.stringify(msg);
+					ws.send(jon);
+					console.log(jon)
+				}
+			}
+
+
+
+			editor.on("change", onChange)
+
+
+
+			ws.onmessage = function(e) {
+				ownChange = true;
+				console.log(e.data)
+				var msg = JSON.parse(e.data);
+				editor.setValue(msg.data, msg.curPos)
+				ownChange = false;
+			}	
+		</script>
+	</body>
+</html>
