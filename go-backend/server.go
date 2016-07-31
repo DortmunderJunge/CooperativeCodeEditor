@@ -70,13 +70,7 @@ func (s *Server) sendAll(msg *Message) {
 	}
 }
 
-// Listen and serve.
-// It serves client connection and broadcast request.
-func (s *Server) Listen() {
-
-	log.Println("Listening server...")
-
-	// websocket handler
+func (s *Server) Handler() http.Handler {
 	onConnected := func(ws *websocket.Conn) {
 		defer func() {
 			err := ws.Close()
@@ -89,8 +83,16 @@ func (s *Server) Listen() {
 		s.Add(client)
 		client.Listen()
 	}
-	http.Handle(s.pattern, websocket.Handler(onConnected))
+	m[s.pattern] = websocket.Handler(onConnected)
 	log.Println("Created handler")
+	return m[s.pattern]
+}
+
+// Listen and serve.
+// It serves client connection and broadcast request.
+func (s *Server) Listen() {
+
+	log.Println("Listening server...")
 
 	for {
 		select {
@@ -99,7 +101,6 @@ func (s *Server) Listen() {
 		case c := <-s.addCh:
 			log.Println("Added new client")
 			s.clients[c.id] = c
-			log.Println("Now", len(s.clients), "clients connected.")
 			s.sendLatestMessage(c)
 
 		// del a client

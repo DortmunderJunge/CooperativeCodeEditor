@@ -1,27 +1,31 @@
 package main
 
 import (
-	"io"
 	"net/http"
-
-	"golang.org/x/net/websocket"
+	"strings"
 )
 
-func echoHandler(ws *websocket.Conn) {
-	io.Copy(ws, ws)
-}
+var m = make(map[string]http.Handler)
 
 func main() {
-	//http.Handle("/ws", websocket.Handler(echoHandler))
-
-	server := NewServer("/ws")
-	go server.Listen()
-
+	http.HandleFunc("/ws/", wsHandler)
 	http.Handle("/", http.FileServer(http.Dir("assets")))
+
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
 		panic("ListenAndServe: " + err.Error())
 	}
+}
+
+func wsHandler(w http.ResponseWriter, r *http.Request) {
+	session := strings.TrimPrefix(r.URL.String(), "/ws/")
+	h, ok := m[session]
+	if !ok {
+		server := NewServer(session)
+		h = server.Handler()
+		go server.Listen()
+	}
+	h.ServeHTTP(w, r)
 }
 
 type Message struct {

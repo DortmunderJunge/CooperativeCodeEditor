@@ -12,7 +12,9 @@
 		<div id="editor">some text</div>
 		<script src="ace.js" type="text/javascript" charset="utf-8"></script>
 		<script>
-			var ws = new WebSocket("ws://localhost:8080/ws");
+			console.log(window.location.hash)
+			var session = window.location.hash.replace("#", "")
+			var ws = new WebSocket("ws://localhost:8080/ws/"+session);
 			var editor = ace.edit("editor");
 			var ownChange = false;
 
