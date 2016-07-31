@@ -11,7 +11,7 @@ func main() {
 	http.HandleFunc("/ws/", wsHandler)
 	http.Handle("/", http.FileServer(http.Dir("assets")))
 
-	err := http.ListenAndServe(":8080", nil)
+	err := http.ListenAndServe(":8081", nil)
 	if err != nil {
 		panic("ListenAndServe: " + err.Error())
 	}
