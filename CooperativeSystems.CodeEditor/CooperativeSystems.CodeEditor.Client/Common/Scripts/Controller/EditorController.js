@@ -1,22 +1,7 @@
 (function () {
     app.controller('EditorController', function ($scope, $rootScope) {
 
-        this.language = 'html';
-
         this.languages = [];
-
-        this.fileContent = "Zum Starten eine deiner Dateien auswählen!";
-
-        this.contentChanged = function(e) {
-            console.log(e);
-        }
-
-
-
-
-
-
-
 
         var Language = function (name, caption, extensions) {
             this.name = name;
@@ -195,6 +180,35 @@
             this.languages.push(mode);
         }
 
+        $scope.language = new Language('html', 'HTML', 'html');
+
+        $scope.fileContent = "Zum Starten eine deiner Dateien auswählen!";
+
+        $scope.contentChanged = function (e) {
+            console.log(e);
+        };
+
+        // The ui-ace option
+        this.aceOption = {
+            mode: $scope.language.name.toLowerCase(),
+            theme: 'vibrant_ink',
+            onChange: $scope.contentChanged,
+            require: ['ace/ext/language_tools'],
+            advanced: {
+                enableSnippets: true,
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true
+            },
+            onLoad: function (_ace) {
+
+                // HACK to have the ace instance in the scope...
+                $scope.languageChanged = function () {
+                    _ace.getSession().setMode("ace/mode/" + JSON.parse($scope.language).name.toLowerCase());
+                };
+            }
+        };
+
+
 
 
 
@@ -214,14 +228,14 @@
 
         // $scope.fileContent = window.editor.getValue();
 
-        // $rootScope.$watch('activeDocument', function (document, oldDocument) {
-        //     // Endlosschleife verhindern
-        //     if (document) {
-        //         if (!oldDocument || document.name !== oldDocument.name && document.content) {
-        //             $scope.fileContent = document.content;
-        //         }
-        //     }
-        // });
+        $rootScope.$watch('activeDocument', function (document, oldDocument) {
+            // Endlosschleife verhindern
+            if (document) {
+                if (!oldDocument || document.name !== oldDocument.name && document.content) {
+                    $scope.fileContent = document.content;
+                }
+            }
+        });
 
         // $scope.$watch('fileContent', function (content) {
 

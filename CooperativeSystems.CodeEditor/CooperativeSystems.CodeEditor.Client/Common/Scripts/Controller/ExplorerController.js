@@ -86,7 +86,6 @@
                     gitHubFile.getFileContent().then(
                         function success(file) {
                             gitHubFile.content = file;
-                            window.editor.setValue(gitHubFile.content);
                             $rootScope.activeDocument = gitHubFile;
                         }
                     );

@@ -19,7 +19,7 @@
     position: absolute;
     bottom: 1px;
     left: 29px;
-    white-space: no-wrap;
+    white-space: nowrap;
 }
 
 .editor-container {

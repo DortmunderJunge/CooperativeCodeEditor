@@ -66,7 +66,7 @@
             }).then(
                 function success(response) {
                     me.isLoading = false;
-                    return window.atob(response.data.content);
+                    return decodeURIComponent(escape(window.atob(response.data.content)));
                 },
                 function error() {
                     me.isLoading = false;
