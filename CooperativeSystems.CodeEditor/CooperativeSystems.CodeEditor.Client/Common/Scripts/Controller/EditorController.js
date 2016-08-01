@@ -1,6 +1,8 @@
 (function () {
     app.controller('EditorController', function ($scope, $rootScope) {
 
+        $rootScope.socket = new WebSocket("ws://localhost:8081/ws/" + $rootScope.sessionId);
+
         this.languages = [];
 
         var Language = function (name, caption, extensions) {
@@ -184,8 +186,41 @@
 
         $scope.fileContent = "Zum Starten eine deiner Dateien auswählen!";
 
-        $scope.contentChanged = function (e) {
-            console.log(e);
+        // $scope.contentChanged = function (e) {
+        //     delete e[1]; // delete event overhead;
+
+        //     if ($rootScope.socket.readyState == 1 && $scope.lastHash !== ace.getSession().getValue().hashCode()) {
+        //         $scope.lastHash = ace.getSession().getValue().hashCode();
+        //         var data = {
+        //             data: {
+        //                 currentContentHash: ace.getSession().getValue().hashCode(),
+        //                 data: JSON.stringifySafe(e),
+        //                 editor: $rootScope.gitHubUser && $rootScope.gitHubUser.UserName ? $rootScope.gitHubUser.UserName : '',
+        //             }
+        //         };
+        //         data.data = JSON.stringifySafe(data.data);
+        //         data = JSON.stringifySafe(data);
+        //         console.log('send data');
+        //         console.log(data);
+        //         $rootScope.socket.send(data);
+        //     }
+        // };
+
+
+
+        $rootScope.socket.onmessage = function (message) {
+            var emptyObject = JSON.stringify({ "data": JSON.stringify({ "data": null }) });
+            var data = JSON.parse(JSON.parse(JSON.parse(message.data).data || JSON.parse(emptyObject).data).data);
+            console.log("receive data");
+            console.log(data);
+            if (data) {
+                var editor = JSON.parse(JSON.parse(message.data).data).editor;
+                var hash = JSON.parse(JSON.parse(message.data).data).currentContentHash;
+                $scope.lastHash = hash;
+                if (editor !== $rootScope.gitHubUser.UserName && hash !== ace.getSession().getValue().hashCode()) { //ignore my changes.
+                    ace.getSession().getDocument().applyDelta(data);
+                }
+            }
         };
 
         // The ui-ace option
@@ -195,16 +230,36 @@
             onChange: $scope.contentChanged,
             require: ['ace/ext/language_tools'],
             advanced: {
-                enableSnippets: true,
+                enableSnippets: false,
                 enableBasicAutocompletion: true,
                 enableLiveAutocompletion: true
             },
             onLoad: function (_ace) {
-
+                window.ace = _ace;
                 // HACK to have the ace instance in the scope...
                 $scope.languageChanged = function () {
                     _ace.getSession().setMode("ace/mode/" + JSON.parse($scope.language).name.toLowerCase());
                 };
+
+                window.ace.on('change', function (delta) {
+                    if (window.ace.curOp && window.ace.curOp.command.name) { // Änderung stammt von mir
+                        if ($rootScope.socket.readyState == 1) {
+                            var data = {
+                                data: {
+                                    currentContentHash: ace.getSession().getValue().hashCode(),
+                                    data: JSON.stringifySafe(delta),
+                                    editor: $rootScope.gitHubUser && $rootScope.gitHubUser.UserName ? $rootScope.gitHubUser.UserName : '',
+                                }
+                            };
+                            data.data = JSON.stringifySafe(data.data);
+                            data = JSON.stringifySafe(data);
+
+                            console.log('send data');
+                            console.log(data);
+                            $rootScope.socket.send(data);
+                        }
+                    }
+                });
             }
         };
 

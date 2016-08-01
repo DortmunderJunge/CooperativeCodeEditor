@@ -50,6 +50,16 @@
     background-size: contain;
 }
 
+#language-select {
+    margin-top: 15px;
+    float: right;
+    width: 70%;
+}
+
+#save {
+    padding-top: 10px;
+}
+
 
 .application-root {
     width: 100%;

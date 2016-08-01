@@ -22,12 +22,12 @@
         <ng-include src=" '../Common/Templates/Toolbar.html' "></ng-include>
         <md-content layout-padding>
             <div layout="row">
-                <div layout="column ">
+                <!--<div layout="column ">
                     <ng-include src="'../Login/Login.html'" ng-hide="isLoggedIn"></ng-include>
                     <ng-include src="'../Login/UserInfo.html'" ng-show="isLoggedIn"></ng-include>
-                </div>
+                </div>-->
                 <div layout="column">
-                    <ng-include src="'../Code/Explorer.html'" ng-show="isLoggedIn"></ng-include>
+                    <ng-include src="'../Code/Explorer.html'" ng-hide="isLoggedIn"></ng-include>
                 </div>
                 <div layout="column">
                     <ng-include src=" '../Common/Templates/Sidebar.html' "></ng-include>
@@ -57,7 +57,6 @@
     <script src="../Common/Scripts/Controller/ExplorerController.js"></script>
     <script src="../Common/Scripts/Controller/EditorController.js"></script>
     <script src="../Common/Scripts/Controller/UsersController.js "></script>
-    <script src="../Common/Scripts/Controller/InviteController.js "></script>
 
     <script src="https://cdn.jsdelivr.net/ace/1.2.4/min/ace.js"></script>
     <script src="https://cdn.jsdelivr.net/g/ace@1.2.4(min/theme-vibrant_ink.js+noconflict/ext-language_tools.js)"></script>

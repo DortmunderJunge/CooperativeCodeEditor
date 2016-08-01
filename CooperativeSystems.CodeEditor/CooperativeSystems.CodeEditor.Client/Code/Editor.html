@@ -1,11 +1,14 @@
 <div ng-cloak style="height: 100%;" ng-controller="EditorController as editor">
     <md-toolbar class="md-theme-indigo">
         <div layout="row">
-            <div style="width: 80%;">
+            <div style="width: 60%;">
                 <h2 class="md-toolbar-tools">{{ activeDocument.name }}</h2>
             </div>
-            <md-input-container style="width: 20%; margin-top: 15px; margin-right:20px; margin-bottom:0;"> 
-                <md-select ng-model="language" aria-label="Sprache" ng-change="languageChanged()">
+            <md-input-container style="width: 40%; margin-top: 0; margin-right:20px; margin-bottom:0;"> 
+                <md-button id="save">
+                    <i class="material-icons">file_download</i>
+                </md-button>
+                <md-select id="language-select" ng-model="language" aria-label="Sprache" ng-change="languageChanged()">
                     <md-option ng-repeat="lang in editor.languages" value="{{ lang }}" ng-disabled="!lang.supportsFile(activeDocument.name)">
                         {{lang.caption}}
                     </md-option>
@@ -21,4 +24,3 @@
         </md-card>
     </md-content>
 </div>
-<script type="text/javascript-lazy" src="../Common/Scripts/CodeEditor.js"></script>

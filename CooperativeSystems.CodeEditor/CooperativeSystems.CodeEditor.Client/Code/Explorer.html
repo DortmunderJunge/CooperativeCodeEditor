@@ -1,19 +1,10 @@
-<div ng-controller="ExplorerController as explorer" ng-cloak class="explorer" ng-show="isLoggedIn">
+<div ng-controller="ExplorerController as explorer" ng-cloak class="explorer">
     <section layout="row" flex>
-        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="$mdMedia('gt-md')" md-disable-backdrop md-whiteframe="4">
+        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4">
             <md-toolbar class="md-theme-indigo">
-
                 <h1 class="md-toolbar-tools"><i class="material-icons">code</i>&nbsp;Mein Code</h1>
-
-                <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
-                    Toggle left
-                </md-button>
             </md-toolbar>
             <md-content layout-padding style="height: 100%">
-                <md-button ng-click="toggleLeft()" class="md-primary" hide-gt-md>
-                    Toggle left
-                </md-button>
-
                 <div ng-repeat="repo in explorer.repositories()">
                     <ng-include src="'../Code/Content.html'" ng-controller="ExplorerController as explorer" onload="explorer.setCurrentContent(repo)"></ng-include>
                 </div>

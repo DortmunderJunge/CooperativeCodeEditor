@@ -1,7 +1,31 @@
 (function () {
     app.controller('PageController', ['$scope', '$rootScope', '$controller',
         function ($scope, $rootScope, $controller) {
+
+            this.localUrlParams = {}
+
             this.init = function () {
+
+                var self = this;
+                var locationHash = window.location.hash.replace('#', '').replace('?', '');
+                angular.forEach(locationHash.split('&'), function (parameter, index) {
+                    var key = parameter.split('=')[0];
+                    var value = parameter.split('=')[1];
+                    self.localUrlParams[key] = value;
+                });
+
+                if (this.localUrlParams.id) {
+                    $rootScope.sessionId = this.localUrlParams.id;
+                } else {
+                    $rootScope.sessionId = uuid.v4();
+                    if (window.location.hash.length > 0) {
+                        window.location.hash = window.location.hash.concat('&');
+                    } else {
+                        window.location.hash = window.location.hash.concat('?');
+                    }
+                    window.location.hash = window.location.hash.concat('id=' + $rootScope.sessionId);
+                    self.localUrlParams['id'] = $rootScope.sessionId;
+                }
 
                 $rootScope.colors = ['#ffd740', '#00bcd4', '#e91e63'];
 
@@ -22,6 +46,7 @@
                         ExplorerController.getGitHubRepos();
                     },
                     function error() {
+                        $rootScope.gitHubUser.UserName = uuid.v4();
                         console.log('not logged in');
                     }
                 );

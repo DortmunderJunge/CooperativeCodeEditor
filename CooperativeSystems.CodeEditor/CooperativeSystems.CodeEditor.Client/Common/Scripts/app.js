@@ -1,4 +1,4 @@
-var app = angular.module('CooperativeCodeEdior', ['ngMaterial', 'ui.ace']);
+var app = angular.module('CooperativeCodeEdior', ['ngSanitize', 'ngMaterial', 'ui.ace']);
 
 (function () {
     app.config(function ($httpProvider) {

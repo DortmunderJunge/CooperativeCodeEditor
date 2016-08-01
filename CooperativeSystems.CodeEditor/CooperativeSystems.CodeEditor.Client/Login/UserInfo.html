@@ -11,15 +11,23 @@
         </code>
     </md-card-content>
     <md-card-actions layout="row" layout-align="end center">
-        <div ng-controller="UsersController as users" ng-cloak style="position: relative; top: -8px; left: -20px;">
+
+        <md-button class="md-primary md-raised" ng-controller="InviteController as invite" ng-click="openDialog($event)">
+            Einladen...
+        </md-button>
+
+
+        <!--<div ng-controller="UsersController as users" ng-cloak style="position: relative; top: -8px; left: -20px;">
             <md-button aria-label="menu" class="md-fab" ng-click="users.setColor()" ng-style="{'background-color': $root.colors[$root.gitHubUser.colorIndex]}">
             </md-button>
-        </div>
+        </div>-->
         <md-button ng-controller="LoginController as login" ng-click="login.logout()" class="md-raised md-primary">Ausloggen</md-button>
     </md-card-actions>
 </md-card>
 
 
+
+<!--
 <md-card id="login-card" ng-repeat="other in $root.otherUsers">
     <div class="md-card-image" style="background-image: url({{ other.avatar_url }});"></div>
     <md-card-title>
@@ -33,3 +41,4 @@
         </code>
     </md-card-content>
 </md-card>
+-->
