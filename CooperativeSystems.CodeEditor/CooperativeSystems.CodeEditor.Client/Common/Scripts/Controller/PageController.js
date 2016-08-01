@@ -2,12 +2,14 @@
     app.controller('PageController', ['$scope', '$rootScope', '$controller',
         function ($scope, $rootScope, $controller) {
 
+            $rootScope.socket = new WebSocket("ws://localhost:8081/ws/" + $rootScope.sessionId);
+
             this.localUrlParams = {};
 
             $rootScope.activeDocument = {};
 
             this.init = function () {
-                
+
                 $rootScope.editorId = uuid.v4();
 
                 var self = this;
@@ -54,6 +56,25 @@
                         console.log('not logged in');
                     }
                 );
+
+
+                var data = {
+                    data: {
+                        action: 'requestCurrentContent',
+                        value: JSON.stringify({
+                            replyTo: $rootScope.editorId,
+                        }),
+                    },
+                };
+                var interval = setInterval(function () {
+                    if ($rootScope.socket.readyState == 1) {
+                        data.data = JSON.stringifySafe(data.data);
+                        data = JSON.stringifySafe(data);
+                        $rootScope.socket.send(data);
+                        clearInterval(interval);
+                        console.log('request for current editor content...');
+                    }
+                }, 200);
             }
         }]);
 })();

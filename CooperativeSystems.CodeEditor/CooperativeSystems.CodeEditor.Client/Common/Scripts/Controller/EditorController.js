@@ -1,8 +1,6 @@
 (function () {
     app.controller('EditorController', function ($scope, $rootScope) {
 
-        $rootScope.socket = new WebSocket("ws://localhost:8081/ws/" + $rootScope.sessionId);
-
         this.languages = [];
 
         var Language = function (name, caption, extensions) {
@@ -202,13 +200,45 @@
                         if (editor !== $rootScope.editorId && hash !== ace.getSession().getValue().hashCode()) { //ignore my changes.
                             ace.getSession().getDocument().applyDelta(JSON.parse(data.value.data));
                         }
+                        break;
                     }
 
                     case 'changeDocument': {
                         var document = data.value;
                         $rootScope.activeDocument = document;
                         $rootScope.$apply();
-                        //$scope.fileContent = document.content;
+                        break;
+                    }
+
+                    case 'requestCurrentContent': {
+                        data.value = JSON.parse(data.value);
+                        var senderId = data.value.replyTo;
+                        var document = $.extend(true, {}, $rootScope.activeDocument);
+                        document.content = $scope.fileContent;
+                        var data = {
+                            data: {
+                                action: 'replyCurrentContent',
+                                value: JSON.stringify({
+                                    forId: senderId,
+                                    document: document,
+                                }),
+                            },
+                        };
+                        data.data = JSON.stringifySafe(data.data);
+                        data = JSON.stringifySafe(data);
+                        $rootScope.socket.send(data);
+                        break;
+                    }
+
+                    case 'replyCurrentContent': {
+                        data.value = JSON.parse(data.value);
+                        var receiverId = data.value.forId;
+                        if (receiverId == $rootScope.editorId) {
+                            var document = data.value.document;
+                            $rootScope.activeDocument = document;
+                            $rootScope.$apply();
+                        }
+                        break;
                     }
                 }
             }
@@ -233,7 +263,7 @@
                 };
 
                 window.ace.on('change', function (delta) {
-                    if (window.ace.curOp && window.ace.curOp.command.name) { // Änderung stammt von mir
+                    if (window.ace.curOp && window.ace.curOp.command.name) { // Änderung durch user-input und nicht durch Programm
                         if ($rootScope.socket.readyState == 1) {
                             var data = {
                                 data: {
