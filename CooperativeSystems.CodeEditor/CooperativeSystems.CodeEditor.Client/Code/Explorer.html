@@ -1,6 +1,6 @@
 <div ng-controller="ExplorerController as explorer" ng-cloak class="explorer">
     <section layout="row" flex>
-        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4">
+        <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4" ng-show="$root.isLoggedIn">
             <md-toolbar class="md-theme-indigo">
                 <h1 class="md-toolbar-tools"><i class="material-icons">code</i>&nbsp;Mein Code</h1>
             </md-toolbar>

@@ -2,9 +2,13 @@
     app.controller('PageController', ['$scope', '$rootScope', '$controller',
         function ($scope, $rootScope, $controller) {
 
-            this.localUrlParams = {}
+            this.localUrlParams = {};
+
+            $rootScope.activeDocument = {};
 
             this.init = function () {
+                
+                $rootScope.editorId = uuid.v4();
 
                 var self = this;
                 var locationHash = window.location.hash.replace('#', '').replace('?', '');

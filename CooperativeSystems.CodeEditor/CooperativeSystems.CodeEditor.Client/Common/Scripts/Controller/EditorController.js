@@ -186,39 +186,30 @@
 
         $scope.fileContent = "Zum Starten eine deiner Dateien auswählen!";
 
-        // $scope.contentChanged = function (e) {
-        //     delete e[1]; // delete event overhead;
-
-        //     if ($rootScope.socket.readyState == 1 && $scope.lastHash !== ace.getSession().getValue().hashCode()) {
-        //         $scope.lastHash = ace.getSession().getValue().hashCode();
-        //         var data = {
-        //             data: {
-        //                 currentContentHash: ace.getSession().getValue().hashCode(),
-        //                 data: JSON.stringifySafe(e),
-        //                 editor: $rootScope.gitHubUser && $rootScope.gitHubUser.UserName ? $rootScope.gitHubUser.UserName : '',
-        //             }
-        //         };
-        //         data.data = JSON.stringifySafe(data.data);
-        //         data = JSON.stringifySafe(data);
-        //         console.log('send data');
-        //         console.log(data);
-        //         $rootScope.socket.send(data);
-        //     }
-        // };
-
-
-
         $rootScope.socket.onmessage = function (message) {
-            var emptyObject = JSON.stringify({ "data": JSON.stringify({ "data": null }) });
-            var data = JSON.parse(JSON.parse(JSON.parse(message.data).data || JSON.parse(emptyObject).data).data);
+            var emptyObject = JSON.stringify({ "data": { "data": null } });
+            var data = JSON.parse(JSON.parse(message.data).data || JSON.parse(emptyObject).data);
             console.log("receive data");
             console.log(data);
             if (data) {
-                var editor = JSON.parse(JSON.parse(message.data).data).editor;
-                var hash = JSON.parse(JSON.parse(message.data).data).currentContentHash;
-                $scope.lastHash = hash;
-                if (editor !== $rootScope.gitHubUser.UserName && hash !== ace.getSession().getValue().hashCode()) { //ignore my changes.
-                    ace.getSession().getDocument().applyDelta(data);
+                var action = data.action;
+
+                switch (action) {
+                    case 'editText': {
+                        var editor = data.value.editor;
+                        var hash = data.value.currentContentHash;
+                        $scope.lastHash = hash;
+                        if (editor !== $rootScope.editorId && hash !== ace.getSession().getValue().hashCode()) { //ignore my changes.
+                            ace.getSession().getDocument().applyDelta(JSON.parse(data.value.data));
+                        }
+                    }
+
+                    case 'changeDocument': {
+                        var document = data.value;
+                        $rootScope.activeDocument = document;
+                        $rootScope.$apply();
+                        //$scope.fileContent = document.content;
+                    }
                 }
             }
         };
@@ -246,9 +237,12 @@
                         if ($rootScope.socket.readyState == 1) {
                             var data = {
                                 data: {
-                                    currentContentHash: ace.getSession().getValue().hashCode(),
-                                    data: JSON.stringifySafe(delta),
-                                    editor: $rootScope.gitHubUser && $rootScope.gitHubUser.UserName ? $rootScope.gitHubUser.UserName : '',
+                                    action: 'editText',
+                                    value: {
+                                        currentContentHash: ace.getSession().getValue().hashCode(),
+                                        data: JSON.stringifySafe(delta),
+                                        editor: $rootScope.editorId,
+                                    }
                                 }
                             };
                             data.data = JSON.stringifySafe(data.data);
@@ -263,52 +257,33 @@
             }
         };
 
-        this.download = function() {
+        this.download = function () {
             var a = document.createElement("a");
             var text = $scope.fileContent;
-            var file = new Blob([text], {type: "text/plain"});
+            var file = new Blob([text], { type: "text/plain" });
             a.href = URL.createObjectURL(file);
             a.download = $rootScope.activeDocument ? $rootScope.activeDocument.name : 'code.txt';
             a.click();
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        // // window.editor = ace.edit("code-editor");
-        // // window.editor.setTheme("ace/theme/vibrant_ink");
-        // // window.editor.getSession().setMode("ace/mode/javascript");
-
-        // $scope.fileContent = window.editor.getValue();
 
         $rootScope.$watch('activeDocument', function (document, oldDocument) {
             // Endlosschleife verhindern
             if (document) {
                 if (!oldDocument || document.name !== oldDocument.name && document.content) {
                     $scope.fileContent = document.content;
+                    console.log(document);
+
+                    var data = {
+                        data: {
+                            action: 'changeDocument',
+                            value: document,
+                        },
+                    };
+                    data.data = JSON.stringifySafe(data.data);
+                    data = JSON.stringifySafe(data);
+                    $rootScope.socket.send(data);
                 }
             }
         });
-
-        // $scope.$watch('fileContent', function (content) {
-
-        //     if ($rootScope.activeDocument) {
-        //         $rootScope.activeDocument.content = content;
-        //     } else {
-        //         content = "$(function() {var start = function() {alert('Wähle eine deiner Dateien aus, um zu beginnen!');    };start();});" // dummy text
-        //     }
-        //     // window.editor.setValue(content);
-        // });
     });
 })();
