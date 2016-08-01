@@ -263,6 +263,15 @@
             }
         };
 
+        this.download = function() {
+            var a = document.createElement("a");
+            var text = $scope.fileContent;
+            var file = new Blob([text], {type: "text/plain"});
+            a.href = URL.createObjectURL(file);
+            a.download = $rootScope.activeDocument ? $rootScope.activeDocument.name : 'code.txt';
+            a.click();
+        }
+
 
 
 
