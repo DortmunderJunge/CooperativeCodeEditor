@@ -240,6 +240,11 @@
                         }
                         break;
                     }
+                    
+                    case 'newChatMessage': {
+                        $rootScope.chatMessages.push(data.value);
+                        $rootScope.$apply();
+                    }
                 }
             }
         };

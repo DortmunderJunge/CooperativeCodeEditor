@@ -1,6 +1,8 @@
 (function () {
-    app.controller('UsersController', function ($rootScope) {
+    app.controller('InfoController', function ($rootScope) {
         
+        this.showImage = true;
+
         this.pickerOpen = false;
 
         this.setColor = function (user) {
