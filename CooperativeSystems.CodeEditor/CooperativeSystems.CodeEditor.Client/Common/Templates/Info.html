@@ -41,7 +41,7 @@
     </md-card>
 
 
-    <md-card id="chat-card" ng-controller="ChatController as chat">
+    <md-card id="chat-card" ng-controller="ChatController as chat" ng-show="chat.shouldShowChat()">
         <md-card-title>
             <i style="padding-top:5px; margin-right:10px;" class="material-icons">chat</i>
             <md-card-title-text>

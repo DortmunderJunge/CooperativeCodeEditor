@@ -42,6 +42,10 @@
             }
         }
 
+        this.shouldShowChat = function() {
+            return $rootScope.isLoggedIn || window.location.pathname.indexOf('/View/') >= 0;
+        }
+
         $rootScope.$watchCollection('chatMessages', function (old, updated) {
             setTimeout(function () {
                 $("#chat-container").scrollTop($("#chat-container")[0].scrollHeight);

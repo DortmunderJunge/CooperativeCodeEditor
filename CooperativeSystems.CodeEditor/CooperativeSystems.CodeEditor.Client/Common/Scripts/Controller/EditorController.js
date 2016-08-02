@@ -180,7 +180,7 @@
             this.languages.push(mode);
         }
 
-        $scope.language = new Language('html', 'HTML', 'html');
+        $scope.language = JSON.stringify(new Language('html', 'HTML', 'html'));
 
         $scope.fileContent = "Zum Starten eine deiner Dateien auswählen!";
 
@@ -251,7 +251,7 @@
 
         // The ui-ace option
         this.aceOption = {
-            mode: $scope.language.name.toLowerCase(),
+            mode: JSON.parse($scope.language).name.toLowerCase(),
             theme: 'vibrant_ink',
             onChange: $scope.contentChanged,
             require: ['ace/ext/language_tools'],
