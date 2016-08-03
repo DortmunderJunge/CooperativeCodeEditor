@@ -1,19 +1,12 @@
 (function () {
     app.controller('InfoController', function ($rootScope) {
-        
+
+        // should the git-hub-image be displayed?
         this.showImage = true;
 
-        this.pickerOpen = false;
-
-        this.setColor = function (user) {
-            if (user) {
-                angular.forEach($rootScope.otherUsers, function(user, index) {
-                    user.colorIndex = ((user.colorIndex + 1) % $rootScope.colors.length);
-                    return false;
-                }); 
-            } else {
-                $rootScope.gitHubUser.colorIndex = (($rootScope.gitHubUser.colorIndex + 1) % $rootScope.colors.length);
-            }
+        // Determine if the chat should be available, e.g. hide it in Home/Index.html if the user is not signed in.
+        this.shouldShowChat = function () {
+            return $rootScope.isLoggedIn || window.location.hash.indexOf('view') >= 0;
         }
     });
 })();

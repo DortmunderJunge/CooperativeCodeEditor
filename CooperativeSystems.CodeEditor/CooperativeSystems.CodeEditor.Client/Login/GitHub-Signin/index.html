@@ -2,6 +2,8 @@
 <html>
 
 <head>
+
+    <!--http://stackoverflow.com/a/5349087-->
     <script type="text/javascript">
         var QueryString = function () {
         // This function is anonymous, is executed immediately and 
@@ -45,7 +47,12 @@
             request.addEventListener('load', function(e) {
                 if (request.status >= 200 && request.status < 300) {
                     localStorage.setItem('auth', request.responseText);
-                    window.open('http://localhost:8080/Home', '_self');
+                    var lastHash = sessionStorage.getItem('hash');
+                    var redirect = 'http://localhost:8080/Home'
+                    if (lastHash && lastHash.length > 0) {
+                        redirect = redirect.concat('/' + lastHash);
+                    }                    
+                    window.open(redirect, '_self');
                 } else {
                     var error = document.createElement("code");
                     error.innerHTML = request.responseText;

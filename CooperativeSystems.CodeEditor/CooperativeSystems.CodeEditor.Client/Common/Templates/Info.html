@@ -1,26 +1,27 @@
+<!-- Left hand side Info-Area containing Login, User Information and Chat.-->
+
 <div ng-controller="InfoController as info">
+    <md-card id="login-card" ng-hide="isLoggedIn">
+        <div class="md-card-image login-card-image" ng-show="info.showImage"></div>
+        <md-card-title>
+            <md-card-title-text>
+                <span class="md-headline">Mit GitHub einloggen</span>
+            </md-card-title-text>
+        </md-card-title>
+        <md-card-actions ng-controller="LoginController as login" layout="row" layout-align="end center">
+            <md-button ng-click="login.login()" class="md-raised md-primary">Los geht's!</md-button>
+        </md-card-actions>
+        <md-card-content>
+            <p ng-show="info.showImage" class="long-info">
+                Logge dich mit deinem GitHub-Account ein, um auf deinen Code zuzugreifen und mit deinen Kollegen zu interagieren!
+            </p>
+            <p ng-hide="info.showImage" class="short-info">
+                Schalte alle Features frei!
+            </p>
+        </md-card-content>
+    </md-card>
 
-<md-card id="login-card" ng-hide="isLoggedIn">
-    <div class="md-card-image login-card-image" ng-show="info.showImage"></div>
-    <md-card-title>
-        <md-card-title-text>
-            <span class="md-headline">Mit GitHub einloggen</span>
-        </md-card-title-text>
-    </md-card-title>
-    <md-card-actions ng-controller="LoginController as login" layout="row" layout-align="end center">
-        <md-button ng-click="login.login()" class="md-raised md-primary">Los geht's!</md-button>
-    </md-card-actions>
-    <md-card-content>
-        <p ng-show="info.showImage" class="long-info">
-            Logge dich mit deinem GitHub-Account ein, um auf deinen Code zuzugreifen und mit deinen Kollegen zu interagieren!
-        </p>
-        <p ng-hide="info.showImage" class="short-info">
-            Schalte alle Features frei!
-        </p>
-    </md-card-content>
-</md-card>
-
-    <md-card id="login-card" ng-show="isLoggedIn">
+    <md-card id="user-card" ng-show="isLoggedIn">
         <div class="md-card-image user-image" style="background-image: url({{ $root.gitHubUser.avatar_url }});" ng-show="info.showImage"></div>
         <md-card-title>
             <md-card-title-text>
@@ -41,50 +42,66 @@
     </md-card>
 
 
-    <md-card id="chat-card" ng-controller="ChatController as chat" ng-show="chat.shouldShowChat()">
+    <md-card id="chat-card" ng-show="info.shouldShowChat()" ng-class="{ 'chat-card-large': !info.showImage, 'chat-card-small': info.showImage, 'alert' : $root.hasUnreadMessages && $root.chatAlerts }">
         <md-card-title>
-            <i style="padding-top:5px; margin-right:10px;" class="material-icons">chat</i>
+            <i style=" padding-top:5px; margin-right:10px;" class="material-icons">chat</i>
             <md-card-title-text>
                 <span class="md-headline">Chat</span>
             </md-card-title-text>
-            <md-button style="margin:-5px 0 0 0;" class="md-primary md-fab md-mini" ng-click="info.showImage = !info.showImage">
+
+            <md-button style="margin:-5px 10px 0 0;" class="md-primary md-fab md-mini" ng-click="$root.chatAlerts = !$root.chatAlerts">
+                <i class="material-icons" ng-hide="$root.chatAlerts">notifications_off</i>
+                <i class="material-icons" ng-show="$root.chatAlerts">notifications_active</i>
+            </md-button>
+            <md-button style="margin:-5px 0 0 0;" class="md-primary md-fab md-mini" ng-click="info.showImage=!info.showImage">
                 <i class="material-icons" ng-hide="showImage">fullscreen_exit</i>
                 <i class="material-icons" ng-show="showImage">fullscreen</i>
             </md-button>
         </md-card-title>
-        <md-card-content id="chat-content">
-            <div id="chat-container" ng-class="{ 'chat-container-large': !info.showImage, 'chat-container-small': info.showImage }">
-                <div class="chat-message" ng-class="{ 'my-message': message.name == chat.userName }" ng-repeat="message in $root.chatMessages">
-                    <label>{{ message.name }}</label> <small>um</small> <label>{{ message.time | date:'HH:mm:ss' }}</label>
-                    <div>
-                        <p> {{ message.text }}</p>
+        <div ng-controller="ChatController as chat">
+            <md-card-content id="chat-content">
+                <div id="chat-container">
+                    <div class="chat-message" ng-class="{ 'my-message': message.name==$root.chatNickName }" ng-repeat="message in $root.chatMessages">
+                        <label>
+                            {{ message.name }}
+                        </label>
+                        <small>
+                            um
+                        </small>
+                        <label>
+                            {{ message.time | date:'HH:mm:ss' }}
+                        </label>
+                        <div>
+                            <p>
+                                {{ message.text }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </md-card-content>
-        <md-card-actions style="background-color: #fcfcfc; border: 1px solid #eee; height: 60px; padding-top: 25px;" layout="row"
-            layout-align="end center">
+            </md-card-content>
+            <md-card-actions class="chat-actions" layout="row"
+                layout-align="end center">
 
-            <md-input-container ng-show="chat.userNameSet" class="md-icon-float md-icon-right md-block new-chat-message-container" style="margin: 0; width: 280px;">
-                <i class="material-icons" style="float: left; position: absolute; top: 25px; left: 5px; color: #999">chat_bubble</i>
-                <label style="float: left; position: relative;">Neue Nachricht</label>
-                <input ng-model="chat.currentMessage" id="new-chat-message" type="text" style="width: 180px;" ng-enter="chat.sendMessage()">
-                <md-button style="position: relative; float: right; top: -35px; left: 30px;" class="md-primary md-fab md-mini" title="Nachricht senden"
-                    ng-click="chat.sendMessage()" ng-disabled="chat.currentMessage.length < 1">
-                    <i class="material-icons">send</i>
-                </md-button>
-            </md-input-container>
+                <md-input-container ng-show="chat.userNameSet" class="md-icon-float md-icon-right md-block new-chat-message-container">
+                    <label>Neue Nachricht</label>
+                    <input ng-model="chat.currentMessage" id="new-chat-message" type="text" ng-enter="chat.sendMessage()">
+                    <md-button class="md-primary md-fab md-mini ok-button" title="Nachricht senden"
+                        ng-click="chat.sendMessage()" ng-disabled="chat.currentMessage.length < 1">
+                        <i class="material-icons">send</i>
+                    </md-button>
+                </md-input-container>
 
-            <md-input-container ng-hide="chat.userNameSet" class="md-icon-float md-icon-right md-block chat-username-container" title="Bevor du chatten kannst, brauchst du einen Nickname!"
-                style="margin: 0; width: 280px;">
-                <i class="material-icons" style="float: left; position: absolute; top: 25px; left: 5px; color: #999">person</i>
-                <label style="float: left; position: relative;">Dein Name:</label>
-                <input ng-model="chat.userName" type="text" style="width: 180px;" placeholder="Nickname" ng-enter="chat.setUserName()">
-                <md-button style="position: relative; float: right; top: -35px; left: 30px;" class="md-primary md-fab md-mini" title="Nickname übernehmen"
-                    ng-click="chat.setUserName()" ng-disabled="chat.userName.length < 1">
-                    <i class="material-icons">done</i>
-                </md-button>
-            </md-input-container>
-        </md-card-actions>
+                <md-input-container ng-hide="chat.userNameSet" class="md-icon-float md-icon-right md-block chat-username-container" title="Bevor du chatten kannst, brauchst du einen Nickname!"
+                    style="margin: 0; width: 280px;">
+                    <i class="material-icons person-icon">person</i>
+                    <label style="float: left; position: relative;">Dein Name:</label>
+                    <input ng-model="$root.chatNickName" type="text" style="width: 180px;" placeholder="Nickname" ng-enter="chat.setUserName()">
+                    <md-button class="md-primary md-fab md-mini ok-button" title="Nickname übernehmen"
+                        ng-click="chat.setUserName()" ng-disabled="$root.chatNickName.length < 1">
+                        <i class="material-icons">done</i>
+                    </md-button>
+                </md-input-container>
+            </md-card-actions>
+        </div>
     </md-card>
 </div>

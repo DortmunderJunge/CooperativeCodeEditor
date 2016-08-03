@@ -1,0 +1,132 @@
+
+.chat-username-container.ng-hide-add{
+    display: none; 
+}
+.new-chat-message-container.ng-show-add{
+    display: none;
+}
+
+.new-chat-message-container {
+    margin: 0; 
+    width: 280px; 
+    height: 60px; 
+    padding-left: 0 !important;
+}
+
+.new-chat-message-container label {
+    padding-left: 6px !important;
+}
+
+.new-chat-message-container input {
+    width: 205px;
+    margin-left: 5px;
+}
+
+.ok-button {
+    position: relative;
+    float: right;  
+    top: -35px;
+    left: 30px;
+}
+
+.person-icon {
+    float: left; 
+    position: absolute; 
+    top: 25px;
+    left: 5px; 
+    color: #999
+}
+
+.chat-actions {
+    background-color: #fcfcfc; 
+    border: 1px solid #eee; 
+    height:60px; 
+    padding-top: 25px;
+}
+
+.chat-actions
+
+#chat-container {
+    background-color: #fcfcfc;
+    border: 1px solid #eee
+}
+
+#chat-content {
+    padding: 0 8px;
+}
+.chat-card-large #chat-container {
+    animation:0.5s grow;
+    height: 436px;
+}
+
+.chat-card-small #chat-container {
+    animation:0.5s shrink;
+    height: 136px;
+    font-size: smaller;
+}
+
+#chat-container {
+    padding: 3%;
+    overflow: auto;
+    max-width: 265px;
+}
+
+.chat-message {
+    margin-top: 5px;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #9BC8FF;
+    float: left;
+}
+
+.chat-message:not(.my-message) {
+    border-bottom-left-radius: 0;
+}
+
+.chat-message.my-message {
+    float: right;
+    background-color: #eee;
+    border-bottom-right-radius: 0;
+}
+
+.chat-message p {
+    margin: 3px 0;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.chat-message label {
+    word-break: break-word;
+    font-size: smaller;
+}
+
+.chat-message small {
+    font-size: x-small;
+    cursor: default;
+}
+
+.chat-message{
+    max-width: 85%;
+    clear:both;
+}
+
+
+@keyframes shrink {
+    from { height: 436px; }
+    to { height: 136px; }
+}
+
+#chat-card.alert {
+    animation: 2s blink infinite;
+}
+
+@keyframes grow {
+    from { height: 136px; }
+    to { height: 436px; }
+}
+
+@keyframes blink {
+    0% { background-color: white; }
+    50% { background-color: lightsteelblue; }
+    0% { background-color: white; }
+}

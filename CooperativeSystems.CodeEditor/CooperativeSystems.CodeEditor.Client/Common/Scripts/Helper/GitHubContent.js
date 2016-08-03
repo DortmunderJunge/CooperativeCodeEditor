@@ -11,6 +11,8 @@
             // more properties possible here, but not necessary.
         }
 
+        // expand a folder/repository
+        // get the child-items, if necessary.
         GitHubContent.prototype.expand = function () {
             this.isExpanded = true;
             if (this.children.length < 1) {
@@ -19,6 +21,7 @@
             return this.children;
         }
 
+        // collapse a folder/repository
         GitHubContent.prototype.collapse = function () {
             return this.isExpanded = false;
         }
@@ -33,6 +36,7 @@
             }
         }
 
+        // get a directory's content and fill it
         GitHubContent.prototype.fillDirectoryContent = function () {
             var me = this;
             me.isLoading = true;
@@ -57,6 +61,7 @@
                 });
         }
 
+        // Get a file's content
         GitHubContent.prototype.getFileContent = function () {
             var me = this;
             me.isLoading = true;
@@ -81,6 +86,7 @@
             }
         };
 
+        // Transform GitHubApi-Responses into GitHubContent Objects
         GitHubContent.apiResponseTransformerToContent = function (responseData) {
             return new GitHubContent(
                 responseData.name,

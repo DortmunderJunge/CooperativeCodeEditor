@@ -1,14 +1,13 @@
+<!--Top Toolbar-->
 <div layout="row">
     <div layout="column" layout-fill>
         <md-toolbar md-scroll-shrink="true" class="toolbar">
-            <div ng-controller="SideBarController" class="md-toolbar-tools">
-                <span ng-click="openSidebar()">Cooperative Code Editor v.0.1</span>
+            <div class="md-toolbar-tools">
+                <i class="material-icons">people_outline</i>
+                <span ng-click="openSidebar()">Cooperative Code Editor</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                
+                <i class="material-icons">lightbulb_outline</i> v.1.0</span>
                 <!-- fill up the space between left and right area -->
                 <span flex></span>
-                <md-button ng-click="openSidebar('right')">
-                    <md-icon>
-                        <i class="material-icons">menu</i>
-                </md-button>
             </div>
         </md-toolbar>
     </div>

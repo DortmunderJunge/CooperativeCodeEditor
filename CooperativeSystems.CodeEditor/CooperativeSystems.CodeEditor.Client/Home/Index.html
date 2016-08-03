@@ -4,17 +4,22 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Kooperativer Code - Editor</title>
+    <!--Load AnuglarJS Framework-->
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
     <script src="https://code.angularjs.org/1.5.8/angular-sanitize.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-animate.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-aria.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.3/angular-messages.min.js"></script>
     <script src="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.9/angular-material.min.js"></script>
+    <!--Load Material StyleSheets-->
     <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/angular_material/1.0.9/angular-material.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="../Common/Styles/Toolbar.css" rel="stylesheet">
-    <link href="../Common/Styles/Sidebar.css" rel="stylesheet">
+    <!--Load Application-StyleSheets-->
+    <link href="../Common/Styles/Chat.css" rel="stylesheet">
     <link href="../Common/Styles/Content.css" rel="stylesheet">
+    <link href="../Common/Styles/Editor.css" rel="stylesheet">
+    <link href="../Common/Styles/Explorer.css" rel="stylesheet">
+    <link href="../Common/Styles/Info.css" rel="stylesheet">
 </head>
 
 <body ng-app="CooperativeCodeEdior">
@@ -26,44 +31,52 @@
                     <ng-include src="'../Common/Templates/Info.html'"></ng-include>
                 </div>
                 <div layout="column">
-                    <ng-include src="'../Code/Explorer.html'" ng-show="isLoggedIn"></ng-include>
-                </div>
-                <div layout="column">
-                    <ng-include src=" '../Common/Templates/Sidebar.html' "></ng-include>
+                    <ng-include src="'../Code/Explorer.html'" ng-show="page.shouldShowExplorerAndEditor()"></ng-include>
                 </div>
             </div>
         </md-content>
     </div>
 
 
-
+    <!--Load jQuery-->
     <script src="https://code.jquery.com/jquery-3.1.0.min.js "></script>
-    <script src="../Common/Scripts/uuid.js "></script>
-    <script src="../Common/Scripts/Helper.js "></script>
+    
+    <!--Load app-initializing script-->
     <script src="../Common/Scripts/app.js "></script>
-    <script src="../Common/Scripts/GitHubContent.js "></script>
+
+    <!--Load helpers-->
+    <script src="../Common/Scripts/Helper/ChatMessage.js "></script>
+    <script src="../Common/Scripts/Helper/GitHubContent.js "></script>
+    <script src="../Common/Scripts/Helper/HashCode.js "></script>
+    <script src="../Common/Scripts/Helper/Language.js "></script>
+    <script src="../Common/Scripts/Helper/StringifySafe.js "></script>
+    <script src="../Common/Scripts/Helper/uuid.js "></script>
+
+
+    <!--Load interceptors-->
     <script src="../Common/Scripts/Interceptors/AuthenticationInterceptor.js "></script>
 
-    <script src="../Common/Scripts/Directives/LazyJS.js "></script>
+    <!--Load Directives-->
     <script src="../Common/Scripts/Directives/ngEnter.js "></script>
 
-    <script src="../Common/Scripts/Services/GlobalConfigService.js "></script>
+    <!--Load Services-->
     <script src="../Common/Scripts/Services/AccountService.js "></script>
     <script src="../Common/Scripts/Services/GitHubService.js "></script>
+    <script src="../Common/Scripts/Services/LanguageService.js "></script>
+    <script src="../Common/Scripts/Services/SocketService.js "></script>
 
-    <script src="../Common/Scripts/Controller/PageController.js "></script>
-    <script src="../Common/Scripts/Controller/SideBarController.js "></script>
+    <!--Load Controller-->
+    <script src="../Common/Scripts/Controller/ChatController.js "></script>
+    <script src="../Common/Scripts/Controller/EditorController.js "></script>
+    <script src="../Common/Scripts/Controller/ExplorerController.js "></script>
+    <script src="../Common/Scripts/Controller/InfoController.js"></script>
+    <script src="../Common/Scripts/Controller/InviteController.js"></script>
     <script src="../Common/Scripts/Controller/LoginController.js "></script>
-    <script src="../Common/Scripts/Controller/ExplorerController.js"></script>
-    <script src="../Common/Scripts/Controller/EditorController.js"></script>
-    <script src="../Common/Scripts/Controller/InfoController.js "></script>
-    <script src="../Common/Scripts/Controller/InviteController.js "></script>
-    <script src="../Common/Scripts/Controller/ChatController.js"></script>
+    <script src="../Common/Scripts/Controller/PageController.js "></script>
 
+    <!--Load Ace Editor-->
     <script src="https://cdn.jsdelivr.net/ace/1.2.4/min/ace.js"></script>
     <script src="https://cdn.jsdelivr.net/g/ace@1.2.4(min/theme-vibrant_ink.js+noconflict/ext-language_tools.js)"></script>
-
-
     <script src="../Common/Scripts/Extern/ui-ace.js "></script>
 </body>
 

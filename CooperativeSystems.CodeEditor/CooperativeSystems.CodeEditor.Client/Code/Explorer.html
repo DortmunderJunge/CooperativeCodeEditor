@@ -1,11 +1,11 @@
-<div ng-controller="ExplorerController as explorer" ng-cloak class="explorer">
+<div ng-controller="ExplorerController as explorer" ng-cloak class="explorer" onload="explorer.repositories();">
     <section layout="row" flex>
         <md-sidenav class="md-sidenav-left" md-component-id="left" md-is-locked-open="true" md-disable-backdrop md-whiteframe="4" ng-show="$root.isLoggedIn">
             <md-toolbar class="md-theme-indigo">
                 <h1 class="md-toolbar-tools"><i class="material-icons">code</i>&nbsp;Mein Code</h1>
             </md-toolbar>
             <md-content layout-padding style="height: 100%">
-                <div ng-repeat="repo in explorer.repositories()">
+                <div ng-repeat="repo in $root.cachedRepositories">
                     <ng-include src="'../Code/Content.html'" ng-controller="ExplorerController as explorer" onload="explorer.setCurrentContent(repo)"></ng-include>
                 </div>
             </md-content>

@@ -1,0 +1,78 @@
+
+
+#login-card, #user-card {
+    max-width: 300px;
+}
+
+#login-card .md-card-image {
+    margin: 10px 50px;
+    width: 200px;
+    height: 200px;
+    background-image: url(https://cdn4.iconfinder.com/data/icons/iconsimple-logotypes/512/github-512.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#user-card .md-card-image.user-image {
+    margin: 20px;
+    width: 260px;
+    height: 260px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#login-card .short-info {
+    margin: 0;
+}
+
+.login-card-image.ng-hide-add {
+     animation:0.5s fadeOutLogin;
+}
+.login-card-image.ng-hide-remove {
+     animation:0.5s fadeInLogin;
+}
+
+@keyframes fadeOutLogin {
+    from {height: 200px;}
+    to {height: 0px;}
+    from {margin-top: 10px;}
+    to {margin-top: 0px;}
+    from {margin-bottom: 10px;}
+    to {margin-bottom: 0px;}
+}
+
+@keyframes fadeInLogin {
+    from {height: 0px;}
+    to {height: 200px;}
+    from {margin-top: 0px;}
+    to {margin-top: 10px;}
+    from {margin-bottom: 0px;}
+    to {margin-bottom: 10px;}
+}
+
+
+
+.user-image.ng-hide-add {
+     animation:0.5s fadeOut;
+}
+.user-image.ng-hide-remove {
+     animation:0.5s fadeIn;
+}
+
+@keyframes fadeOut {
+    from {height: 260px;}
+    to {height: 0px;}
+    from {margin-top: 20px;}
+    to {margin-top: 0px;}
+    from {margin-bottom: 20px;}
+    to {margin-bottom: 0px;}
+}
+
+@keyframes fadeIn {
+    from {height: 0px;}
+    to {height: 260px;}
+    from {margin-top: 0px;}
+    to {margin-top: 20px;}
+    from {margin-bottom: 0px;}
+    to {margin-bottom: 20px;}
+}

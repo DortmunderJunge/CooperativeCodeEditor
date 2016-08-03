@@ -1,0 +1,20 @@
+
+.explorer-content-row {
+    position: relative;
+    height: 24px;
+    cursor: pointer;
+}
+.explorer-content-row div {
+    margin-top: 5px;
+}
+
+.explorer-content-label {
+    position: absolute;
+    bottom: 1px;
+    left: 29px;
+    white-space: nowrap;
+}
+
+.explorer section {
+    height: 800px;
+}

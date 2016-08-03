@@ -1,3 +1,4 @@
+// https://github.com/angular-ui/ui-ace
 'use strict';
 
 /**

@@ -1,4 +1,4 @@
-
+// Include OAuth-Token in every request.
 (function () {
     app.factory('AuthenticationInterceptor', ['$window', '$q', function ($window, $q) {
         return {

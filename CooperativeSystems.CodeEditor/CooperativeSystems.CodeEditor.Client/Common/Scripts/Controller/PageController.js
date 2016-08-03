@@ -1,8 +1,11 @@
 (function () {
-    app.controller('PageController', ['$scope', '$rootScope', '$controller',
-        function ($scope, $rootScope, $controller) {
+    app.controller('PageController', ['$scope', '$rootScope', '$controller', 'SocketService',
+        function ($scope, $rootScope, $controller, SocketService) {
 
-            $rootScope.socket = new WebSocket("ws://localhost:8081/ws/" + $rootScope.sessionId);
+            // Determine if the chat should be available, e.g. hide it in Home/Index.html if the user is not signed in.
+            this.shouldShowExplorerAndEditor = function () {
+                return $rootScope.isLoggedIn || window.location.hash.indexOf('view') >= 0;
+            }
 
             this.localUrlParams = {};
 
@@ -12,9 +15,10 @@
 
                 $rootScope.editorId = uuid.v4();
 
+                // determine the current session-id and generate a new one, if no session is set.
                 var self = this;
-                var locationHash = window.location.hash.replace('#', '').replace('?', '');
-                angular.forEach(locationHash.split('&'), function (parameter, index) {
+                var locationHashQuery = window.location.hash.replace('#', '').split('?')[1] || '';
+                angular.forEach(locationHashQuery.split('&'), function (parameter, index) {
                     var key = parameter.split('=')[0];
                     var value = parameter.split('=')[1];
                     self.localUrlParams[key] = value;
@@ -33,23 +37,12 @@
                     self.localUrlParams['id'] = $rootScope.sessionId;
                 }
 
-                $rootScope.colors = ['#ffd740', '#00bcd4', '#e91e63'];
-
-                $rootScope.otherUsers = [
-                    {
-                        Login: 'GrumpyCat',
-                        UserName: 'GrumpyCat',
-                        avatar_url: 'https://pbs.twimg.com/profile_images/616542814319415296/McCTpH_E.jpg'
-                    }
-                ]
-
                 var LoginController = $controller('LoginController', { $scope: $scope });
                 var ExplorerController = $controller('ExplorerController', { $scope: $scope });
 
                 LoginController.checkIsLoggedIn().then(
                     function success() {
-                        $rootScope.gitHubUser.colorIndex = 0;
-                        ExplorerController.getGitHubRepos();
+                        ExplorerController.repositories();
                     },
                     function error() {
                         $rootScope.gitHubUser.UserName = uuid.v4();
@@ -57,24 +50,10 @@
                     }
                 );
 
-
-                var data = {
-                    data: {
-                        action: 'requestCurrentContent',
-                        value: JSON.stringify({
-                            replyTo: $rootScope.editorId,
-                        }),
-                    },
-                };
-                var interval = setInterval(function () {
-                    if ($rootScope.socket.readyState == 1) {
-                        data.data = JSON.stringifySafe(data.data);
-                        data = JSON.stringifySafe(data);
-                        $rootScope.socket.send(data);
-                        clearInterval(interval);
-                        console.log('request for current editor content...');
-                    }
-                }, 200);
+                setTimeout(function () {
+                    // start initializing the current content
+                    SocketService.send('requestCurrentContent', JSON.stringify({ replyTo: $rootScope.editorId, }));
+                }, 1200);
             }
         }]);
 })();

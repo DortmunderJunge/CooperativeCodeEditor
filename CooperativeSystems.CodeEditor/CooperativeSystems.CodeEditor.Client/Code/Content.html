@@ -1,4 +1,4 @@
-<div class="explorer-content-row" ng-click="explorer.open()">
+<div class="explorer-content-row" ng-click="explorer.open(explorer.currentContent.name)">
     <div ng-hide="explorer.currentContent.isLoading">
         <div ng-show="explorer.currentContent.type === 'dir'">
             <i class="material-icons" ng-hide="explorer.currentContent.isExpanded">keyboard_arrow_right</i>
@@ -12,7 +12,7 @@
         <i class="material-icons">refresh</i>
     </div>
 
-    <span class="explorer-content-label">{{ explorer.currentContent.name }}</span>
+    <span class="explorer-content-label" title="{{ explorer.currentContent.name }}">{{ explorer.currentContent.name }}</span>
 </div>
 <div>
     <div class="content" ng-show="explorer.currentContent.isExpanded" ng-repeat="child in explorer.currentContent.children">
