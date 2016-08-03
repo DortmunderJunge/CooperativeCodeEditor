@@ -6,7 +6,7 @@
         // wait for sessionId to be set. then initialize socket.
         var handle = setInterval(function () {
             if ($rootScope.sessionId) {
-                socket = new WebSocket("ws://localhost:8081/ws/" + $rootScope.sessionId);
+                socket = new WebSocket("ws://localhost:8080/ws/" + $rootScope.sessionId);
                 socket.onmessage = onMessage;
                 clearInterval(handle);
             }

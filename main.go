@@ -1,37 +1,47 @@
 package main
 
 import (
-	"fmt"
-	"log"
+	"flag"
 	"net/http"
-	"os/exec"
-	"runtime"
-	"time"
-
-	"github.com/GeertJohan/go.rice"
+	"strings"
 )
 
+var m = make(map[string]http.Handler)
+
 func main() {
-
-	http.Handle("/", http.FileServer(rice.MustFindBox("CooperativeSystems.CodeEditor.Client").HTTPBox()))
-	go http.ListenAndServe(":8080", nil)
-
-	var err error
-	switch runtime.GOOS {
-	case "linux":
-		err = exec.Command("xdg-open", "http://localhost:8080/home/").Run()
-	case "darwin":
-		err = exec.Command("open", "http://localhost:8080/home/").Run()
-	case "windows":
-		err = exec.Command("rundll32", "url.dll,FileProtocolHandler", "http://localhost:8080/home/").Run()
-	default:
-		err = fmt.Errorf("unsupported platform")
+	flag.Parse()
+	dir := flag.Arg(0)
+	if dir == "" {
+		dir = "."
 	}
+
+	http.HandleFunc("/ws/", wsHandler)
+	http.Handle("/", http.FileServer(http.Dir(dir)))
+
+	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
-		log.Println(err)
-		fmt.Println("Open: http://localhost:8080/home/")
+		panic("ListenAndServe: " + err.Error())
 	}
-	for {
-		time.Sleep(time.Minute)
+}
+
+func wsHandler(w http.ResponseWriter, r *http.Request) {
+	session := strings.TrimPrefix(r.URL.String(), "/ws/")
+	h, ok := m[session]
+	if !ok {
+		server := NewServer(session)
+		h = server.Handler()
+		go server.Listen()
 	}
+	h.ServeHTTP(w, r)
+}
+
+type Message struct {
+	client uint
+	CurPos CursorPosition `json:"curPos"`
+	Data   string         `json:"data"`
+}
+
+type CursorPosition struct {
+	Row    uint `json:"row"`
+	Column uint `json:"column"`
 }
