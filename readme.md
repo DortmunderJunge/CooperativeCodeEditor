@@ -8,3 +8,9 @@ Abschließend den mitgelieferten Webserver im Verzeichnis CooperativeCodeEditor\
 Möchte man die Binaries nicht im Webroot liegen lassen, kann man sie auch verschieben und den Webroot im ersten Argument übergeben. Ansonsten wird immer das aktuelle Verzeichnis als Webroot angesehen.
 
 Die Anwendung ist nun unter http://localhost:8080/ zu erreichen.
+
+Getestete Browser:
+    - Google Chrome v 52
+    - Mozilla Firefox v 48
+    - Edge
+    - Internet Explorer 11 - Darstellungsprobleme! Keine vollständige Unterstützung!

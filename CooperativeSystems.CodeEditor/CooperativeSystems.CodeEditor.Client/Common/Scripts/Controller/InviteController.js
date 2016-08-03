@@ -17,9 +17,9 @@
                 .ok('Verstanden!')
 
             $mdDialog.show(confirm).then(function () {
-                // TODO
+                // TODO: Optional eine Aktion ausführen, wenn der Benuter die OK-Funktion auslöst
             }, function () {
-               // TODO
+               // TODO: Optional mit .cancel('Abbrechen') einen Abbrechen-Button einfügen und beim Abbrechen-Klick eine Option ausführen
             });
         }
     });
