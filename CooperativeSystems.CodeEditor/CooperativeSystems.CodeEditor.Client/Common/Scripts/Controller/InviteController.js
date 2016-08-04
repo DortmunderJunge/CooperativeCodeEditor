@@ -14,13 +14,12 @@
                 .title('Code zusammen editieren...')
                 .htmlContent('<p>Gib deine aktuelle Sitzungs-ID an deine Kollegen weiter, um deinen Code zusammen zu bearbeiten!</p> <br/> <label id="id">' + $rootScope.sessionId + '</label> <br/><br/> <label id="link">' + getViewUrl() + '</label><br/>')
                 .targetEvent(ev)
-                .ok('ID kopieren')
-                .cancel('Link erzeugen');
+                .ok('Verstanden!')
 
             $mdDialog.show(confirm).then(function () {
-                // TODO
+                // TODO: Optional eine Aktion ausführen, wenn der Benuter die OK-Funktion auslöst
             }, function () {
-               // TODO
+               // TODO: Optional mit .cancel('Abbrechen') einen Abbrechen-Button einfügen und beim Abbrechen-Klick eine Option ausführen
             });
         }
     });
