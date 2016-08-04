@@ -1,4 +1,5 @@
 Der Service zur Authentisierung läuft bereits in der Cloud unter 'http://cooperativecodeeditorapi.azurewebsites.net/', kann aber auch lokal ausgeführt werden (ASP.Net Web API-Projekt).  
+  
         Nur, wenn Api lokal ausgeführt werden sollte:  
             Common/Scripts/AccountService.js API-URL auf localhost umbiegen  
             Login/GitHub-Signin.html API-URL auf localhost umbiegen  
